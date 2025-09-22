@@ -16,7 +16,7 @@ public class ProcessingSetup extends PApplet {
 
     @Override
     public void settings() {
-        size(400, 400);
+        size(400, 600);
     }
 
     @Override
