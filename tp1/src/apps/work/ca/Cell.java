@@ -1,8 +1,6 @@
-package apps.work.Tp1;
+package apps.work.ca;
 
 import processing.core.PApplet;
-
-import java.io.PrintStream;
 
 public class Cell {
     private int row, col;

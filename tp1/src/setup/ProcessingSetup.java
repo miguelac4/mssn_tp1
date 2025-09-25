@@ -1,8 +1,7 @@
 package setup;
 
-import apps.face.FaceApp2;
-import apps.work.Tp0;
-import apps.work.Tp1.TestCA;
+import apps.work.ca.TestCA;
+import apps.work.dla.DLA;
 import processing.core.PApplet;
 
 public class ProcessingSetup extends PApplet {
@@ -10,7 +9,7 @@ public class ProcessingSetup extends PApplet {
     private int lastUpdateTime;
 
     public static void main(String[] args) {
-        app = new TestCA();
+        app = new DLA();
         PApplet.main(ProcessingSetup.class.getName());
     }
 
