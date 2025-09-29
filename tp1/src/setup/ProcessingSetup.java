@@ -1,8 +1,6 @@
 package setup;
 
-import apps.work.ca.ParteA;
-import apps.work.ca.TestCA;
-import apps.work.dla.DLA;
+import apps.tp1.ca.ParteA;
 import processing.core.PApplet;
 
 public class ProcessingSetup extends PApplet {
