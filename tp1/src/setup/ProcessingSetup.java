@@ -1,5 +1,6 @@
 package setup;
 
+import apps.work.ca.ParteA;
 import apps.work.ca.TestCA;
 import apps.work.dla.DLA;
 import processing.core.PApplet;
@@ -9,13 +10,13 @@ public class ProcessingSetup extends PApplet {
     private int lastUpdateTime;
 
     public static void main(String[] args) {
-        app = new DLA();
+        app = new ParteA();
         PApplet.main(ProcessingSetup.class.getName());
     }
 
     @Override
     public void settings() {
-        size(400, 400);
+        size(700, 700);
     }
 
     @Override

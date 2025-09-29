@@ -4,12 +4,12 @@ import processing.core.PApplet;
 
 public interface IProcessingApp {
 
-    public void setup(PApplet parent);
+    public void setup(PApplet p);
 
-    public void draw(PApplet parent, float dt);
+    public void draw(PApplet p, float dt);
 
-    public void keyPressed(PApplet parent);
+    public void keyPressed(PApplet p);
 
-    public void mousePressed(PApplet parent);
+    public void mousePressed(PApplet p);
 
 }
