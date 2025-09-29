@@ -55,7 +55,12 @@ public class CellularAutomata {
     public void initRandom() {
         for (int i = 0; i < nrows; i++) {
             for (int j = 0; j < ncols; j++) {
-                cells[i][j].setState((int) ((nStates - 1) * Math.random()));
+                /*
+                * Foi alterado esta linha das classes dadas pelo professor Arnaldo Abrantes pois
+                * retorna os valores do tabuleiro a 0 nao alterando os estados para a ParteA TP1.
+                */
+                //cells[i][j].setState((int) ((nStates - 1) * Math.random()));
+                cells[i][j].setState((int) (Math.random() * nStates));
             }
         }
     }
