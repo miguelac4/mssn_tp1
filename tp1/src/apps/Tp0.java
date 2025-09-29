@@ -1,4 +1,4 @@
-package apps.work;
+package apps;
 import processing.core.PApplet;
 import setup.IProcessingApp;
 
