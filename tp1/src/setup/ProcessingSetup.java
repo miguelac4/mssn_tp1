@@ -3,6 +3,7 @@ package setup;
 import apps.work.ca.ParteA;
 import apps.work.ca.TestCA;
 import apps.work.dla.DLA;
+import apps.work.dla.ParteB;
 import processing.core.PApplet;
 
 public class ProcessingSetup extends PApplet {
@@ -10,7 +11,7 @@ public class ProcessingSetup extends PApplet {
     private int lastUpdateTime;
 
     public static void main(String[] args) {
-        app = new ParteA();
+        app = new ParteB();
         PApplet.main(ProcessingSetup.class.getName());
     }
 
