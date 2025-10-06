@@ -3,6 +3,7 @@ package apps.tp1.ca;
 import processing.core.PApplet;
 import setup.IProcessingApp;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -44,16 +45,20 @@ public class ParteA implements IProcessingApp {
                 int alive = 0; // Contar vizinhos vivos
                 // Somamos todos os estados vizinho e eliminamos o proprio (que nao é vizinho)
                 for (Cell n : cell.getNeighbors()) {
-                    alive += (n.getState() > 0 ? 1 : 0);
+                    if (n.getState() > 0) alive++;
                 }
 
-                alive -= (cell.getState() > 0 ? 1 : 0);
+                if (cell.getState() > 0) alive--; // retirar a própria
 
-                // Verifica o estado da celula e muda consoante a regra
-                if (cell.getState() > 0) { // célula viva
-                    next[r][c] = survive.contains(alive) ? 1 : 0;
-                } else { // célula morta
-                    next[r][c] = born.contains(alive) ? 1 : 0;
+                int cself = cell.getState();
+
+                // Se viva
+                if (cself > 0) {
+                    next[r][c] = survive.contains(alive) ? cself : 0; // mantem a cor
+                } else {
+                    // se morta e nasce
+                    // Nasce com a cor (estado) consoante as regras do ex. opcional 2
+                    next[r][c] = born.contains(alive) ? mostPrevalentNeighborState(cell) : 0;
                 }
             }
         }
@@ -64,6 +69,31 @@ public class ParteA implements IProcessingApp {
                 ca.pixel2Cell(c * cw, r * ch).setState(next[r][c]);
             }
         }
+    }
+
+    // Exercicio Facultativo 2 (Regra da vizinhança de cores)
+    private int mostPrevalentNeighborState(Cell cell) {
+        int nStates = ca.getStateColors().length; // num de estados (cores) possiveis
+        int[] counts = new int[nStates];
+
+        // Contar e add ao array dos estados existentes (vivos)
+        for (Cell n : cell.getNeighbors()) {
+            int s = n.getState();
+            if (s > 0) counts[s]++;
+        }
+
+        // Encontrar cor dominante na vizinhança 8
+        int max = 0;
+        for (int s = 1; s < nStates; s++) max = Math.max(max, counts[s]);
+        if (max == 0) return 1;
+
+        // Junta todas as cores dominantes
+        ArrayList<Integer> top = new ArrayList<>();
+        for (int s = 1; s < nStates; s++) if (counts[s] == max) top.add(s);
+
+        // caso haja mais que uma, decide de forma random
+        int idx = (int) (Math.random() * top.size());
+        return top.get(idx);
     }
 
     // Cria celulas de forma random e atribui estados maiores que 1 (cores) aleatorias
