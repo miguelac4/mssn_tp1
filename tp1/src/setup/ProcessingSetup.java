@@ -9,7 +9,7 @@ public class ProcessingSetup extends PApplet {
     private int lastUpdateTime;
 
     public static void main(String[] args) {
-        app = new ParteB();
+        app = new ParteA();
         PApplet.main(ProcessingSetup.class.getName());
     }
 
