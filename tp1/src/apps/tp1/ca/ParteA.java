@@ -8,7 +8,7 @@ import java.util.Set;
 
 public class ParteA implements IProcessingApp {
 
-    private boolean isRunning = true;
+    private boolean isRunning = false;
 
     private CellularAutomata ca; // Tabuleiro
     private int rows, cols, cw, ch;  // dimensões da grelha
@@ -44,13 +44,13 @@ public class ParteA implements IProcessingApp {
                 int alive = 0; // Contar vizinhos vivos
                 // Somamos todos os estados vizinho e eliminamos o proprio (que nao é vizinho)
                 for (Cell n : cell.getNeighbors()) {
-                    alive += n.getState();
+                    alive += (n.getState() > 0 ? 1 : 0);
                 }
 
-                alive -= cell.getState();
+                alive -= (cell.getState() > 0 ? 1 : 0);
 
                 // Verifica o estado da celula e muda consoante a regra
-                if (cell.getState() == 1) { // célula viva
+                if (cell.getState() > 0) { // célula viva
                     next[r][c] = survive.contains(alive) ? 1 : 0;
                 } else { // célula morta
                     next[r][c] = born.contains(alive) ? 1 : 0;
@@ -66,6 +66,21 @@ public class ParteA implements IProcessingApp {
         }
     }
 
+    // Cria celulas de forma random e atribui estados maiores que 1 (cores) aleatorias
+    private void initRandomColoredStart(double pAlive) {
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                boolean alive = Math.random() < pAlive;
+                int state = 0;
+                if (alive) {
+                    state = 2 + (int)(Math.random() * (8)); // 2..9 se nStates=10
+                }
+                ca.pixel2Cell(c * cw, r * ch).setState(state);
+            }
+        }
+    }
+
+
 
     @Override
     public void setup(PApplet p) {
@@ -73,7 +88,7 @@ public class ParteA implements IProcessingApp {
         * nStates = 2            , estado podera ser viva/morta
         * radiusNeigh = 1        , raio de vizinhança
         * */
-        ca = new CellularAutomata(p, 50, 50, 2, 1);
+        ca = new CellularAutomata(p, 50, 50, 10, 1);
         p.frameRate(5);
 
         // Definir linhas e colunas da grelha
@@ -85,14 +100,18 @@ public class ParteA implements IProcessingApp {
         int[] colors = ca.getStateColors();
         colors[0] = p.color(0);     // Cor Morta
         colors[1] = p.color(255, 0, 0); // Cor Viva
+        // Atribuir cores aos restantes estados
+        for (int s = 2; s < colors.length; s++) {
+            colors[s] = p.color(p.random(255), p.random(255), p.random(255));
+        }
 
         /* Descomentar regra a usar */
         setRule_23_3();
         //setRule_23_36();
 
-        ca.initRandom(); // Iniciar celulas randomly
+        initRandomColoredStart(0.15); // Iniciar numero de celulas e cores randomly
 
-        System.out.println("Espaço (Para o Jogo) | S (Avança step by step)");
+        System.out.println("Espaço (Começa / Pára o Jogo)   |   S (Avança step by step)");
     }
 
     @Override
