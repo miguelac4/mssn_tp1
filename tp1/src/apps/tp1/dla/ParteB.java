@@ -1,4 +1,4 @@
-package apps.work.dla;
+package apps.tp1.dla;
 
 import processing.core.PApplet;
 import setup.IProcessingApp;
