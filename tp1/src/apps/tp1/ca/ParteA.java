@@ -58,7 +58,7 @@ public class ParteA implements IProcessingApp {
                 } else {
                     // se morta e nasce
                     // Nasce com a cor (estado) consoante as regras do ex. opcional 2
-                    next[r][c] = born.contains(alive) ? mostPrevalentNeighborState(cell) : 0;
+                    next[r][c] = born.contains(alive) ? dominantState(cell) : 0;
                 }
             }
         }
@@ -72,7 +72,7 @@ public class ParteA implements IProcessingApp {
     }
 
     // Exercicio Facultativo 2 (Regra da vizinhança de cores)
-    private int mostPrevalentNeighborState(Cell cell) {
+    private int dominantState(Cell cell) {
         int nStates = ca.getStateColors().length; // num de estados (cores) possiveis
         int[] counts = new int[nStates];
 
@@ -128,10 +128,9 @@ public class ParteA implements IProcessingApp {
         cols = p.width / cw;
 
         int[] colors = ca.getStateColors();
-        colors[0] = p.color(0);     // Cor Morta
-        colors[1] = p.color(255, 0, 0); // Cor Viva
+        colors[0] = p.color(0, 0, 0);     // Cor Morta
         // Atribuir cores aos restantes estados
-        for (int s = 2; s < colors.length; s++) {
+        for (int s = 1; s < colors.length; s++) {
             colors[s] = p.color(p.random(255), p.random(255), p.random(255));
         }
 
