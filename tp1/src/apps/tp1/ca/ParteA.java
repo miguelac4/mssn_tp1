@@ -110,6 +110,63 @@ public class ParteA implements IProcessingApp {
         }
     }
 
+    // Função para completar a funcionalidade facultativa 2.3
+    private void stampCenteredInit(String[] pat, int state) {
+        // limpar a grelha
+        for (int r = 0; r < rows; r++)
+            for (int c = 0; c < cols; c++)
+                ca.pixel2Cell(c * cw, r * ch).setState(0);
+
+        // centrar
+        int h = pat.length;
+        int w = pat[0].length();
+        int r0 = rows/2 - h/2;
+        int c0 = cols/2 - w/2;
+
+        // meter os padroes na grelha
+        for (int dr = 0; dr < h; dr++) {
+            String line = pat[dr];
+            for (int dc = 0; dc < w; dc++) {
+                char ch = line.charAt(dc);
+                if (ch == 'O' || ch == 'X' || ch == '1') {
+                    int r = r0 + dr, c = c0 + dc;
+                    ca.pixel2Cell(c * this.cw, r * this.ch).setState(state);
+                }
+            }
+        }
+    }
+
+    // ---------- Padrões ----------
+    private static final String[] PULSAR = new String[] {
+            "..OOO...OOO..",
+            ".............",
+            "O....O.O....O",
+            "O....O.O....O",
+            "O....O.O....O",
+            "..OOO...OOO..",
+            ".............",
+            "..OOO...OOO..",
+            "O....O.O....O",
+            "O....O.O....O",
+            "O....O.O....O",
+            ".............",
+            "..OOO...OOO.."
+    }; // period 3, 13x13
+
+    private static final String[] PENTA_DECATHLON = new String[] {
+            "..O..",
+            "OO.OO",
+            "..O..",
+            "..O..",
+            "..O..",
+            "..O..",
+            "..O..",
+            "..O..",
+            "OO.OO",
+            "..O.."
+    }; // period 15, 10x5 (orientação vertical)
+
+
 
 
     @Override
@@ -140,7 +197,13 @@ public class ParteA implements IProcessingApp {
 
         initRandomColoredStart(0.15); // Iniciar numero de celulas e cores randomly
 
-        System.out.println("Espaço (Começa / Pára o Jogo)   |   S (Avança step by step)");
+        System.out.println(
+                "COMANDOS:\n" +
+                "Espaço (Começa / Pára o Jogo) \n" +
+                "S      (Avança step by step) \n" +
+                "R      (Random) \n" +
+                "1      (Padrão: Pulsar) \n" +
+                "2      (Padrão: Penta-decathlon)");
     }
 
     @Override
@@ -157,6 +220,18 @@ public class ParteA implements IProcessingApp {
         switch (p.key) {
             case ' ': isRunning = !isRunning; break;
             case 's': step(); break;
+            case 'r': initRandomColoredStart(0.15); break;
+            case '1':
+                isRunning = false;
+                setRule_23_3();
+                stampCenteredInit(PULSAR, 1);
+                break;
+
+            case '2':
+                isRunning = false;
+                setRule_23_3();
+                stampCenteredInit(PENTA_DECATHLON, 1);
+                break;
         }
     }
 
