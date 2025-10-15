@@ -136,7 +136,7 @@ public class ParteA implements IProcessingApp {
         }
     }
 
-    // ---------- Padrões ----------
+    //_________________Padrões_________________
     private static final String[] PULSAR = new String[] {
             "..OOO...OOO..",
             ".............",
@@ -166,14 +166,13 @@ public class ParteA implements IProcessingApp {
             "..O.."
     }; // period 15, 10x5 (orientação vertical)
 
-
-
+    //_________________________________________
 
     @Override
     public void setup(PApplet p) {
         /*
-        * nStates = 2            , estado podera ser viva/morta
-        * radiusNeigh = 1        , raio de vizinhança
+        * nStates = 2 (estado podera ser viva/morta)
+        * radiusNeigh = 1 (raio de vizinhança)
         * */
         ca = new CellularAutomata(p, 50, 50, 10, 1);
         p.frameRate(5);
@@ -191,7 +190,7 @@ public class ParteA implements IProcessingApp {
             colors[s] = p.color(p.random(255), p.random(255), p.random(255));
         }
 
-        /* Descomentar regra a usar */
+        // Descomentar regra a usar
         setRule_23_3();
         //setRule_23_36();
 
