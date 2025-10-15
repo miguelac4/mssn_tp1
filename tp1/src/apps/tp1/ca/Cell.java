@@ -1,3 +1,10 @@
+/*
+--------------------------------------------
+Classe Realizada em Aula
+    C/ Auxilio do Professor Arnaldo Abrantes
+--------------------------------------------
+ */
+
 package apps.tp1.ca;
 
 import processing.core.PApplet;
