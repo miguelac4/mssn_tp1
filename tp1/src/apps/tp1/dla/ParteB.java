@@ -3,68 +3,36 @@ package apps.tp1.dla;
 import processing.core.PApplet;
 import setup.IProcessingApp;
 
-/**
- * ParteB — Runner “de aluno” para testar a implementação do DLA,
- * no mesmo espírito da ParteA (GoL).
- *
- * Esta classe delega no motor DLA (que já implementa IProcessingApp),
- * mas concentra aqui o “entry point” de avaliação/experimentação.
- */
 public class ParteB implements IProcessingApp {
-
     private DLA dla;
-    private boolean showHelp = true;
 
     @Override
     public void setup(PApplet p) {
-        // cria e inicializa o motor DLA
-        dla = new DLA();
-        dla.setup(p);
+        dla = new DLA(p);
 
-        // frame rate “suave” (ajusta se quiseres ver mais devagar)
-        p.frameRate(60);
+        // presets simples
+        dla.BASE_RADIUS     = 3;
+        dla.STEP_SIZE       = 1.8f;
+        dla.CENTER_BIAS     = 0.0035f;
+        dla.STICKINESS      = 1.0f;
+        dla.WALKERS_TARGET  = 200;
+        dla.SPAWN_MARGIN_PX = 12f * dla.BASE_RADIUS;
+        dla.KILL_MARGIN_PX  = 60f * dla.BASE_RADIUS;
 
-        // Mensagens de ajuda
-        p.println("[ParteB] Controlo DLA:");
-        p.println("  1/2/3/4  -> Seed Point/Line/Circle/Square");
-        p.println("  +/-      -> Steps por frame");
-        p.println("  W/Q      -> Nº de walkers a vaguear (constante)");
-        p.println("  P        -> Pausa/retoma");
-        p.println("  R        -> Reset");
-        p.println("  H        -> Mostrar/ocultar ajuda no ecrã");
+        dla.setup();
     }
 
-    @Override
-    public void draw(PApplet p, float dt) {
-        // desenhar simulação (delegado)
-        dla.draw(p, dt);
-
-        // overlay opcional com ajuda
-        if (showHelp) {
-            p.fill(0, 150);
-            p.rect(8, p.height - 80, 460, 70);
-            p.fill(255);
-            p.text("DLA — Controlo: [1]Point [2]Line [3]Circle [4]Square  (+/-)steps  (W/Q)wanderers  (R)reset  (P)pause  (H)help",
-                    16, p.height - 58);
-            p.text("Nota: nº de walkers em movimento mantém-se constante; cores = ordem de colagem (gradiente HSB).",
-                    16, p.height - 38);
-        }
-    }
+    @Override public void draw(PApplet p, float dt) { dla.draw(dt); }
 
     @Override
     public void keyPressed(PApplet p) {
-        // teclas próprias
-        if (p.key == 'h' || p.key == 'H') {
-            showHelp = !showHelp;
-            return;
+        // usa switch por estilo uniforme; delega tudo para o DLA
+        switch (p.key) {
+            case '1','2','3','4','c','C','p','P','r','R','s','S','+','=' ,'-','_' -> dla.keyPressed(p.key);
+            default -> dla.keyPressed(p.key); // restantes teclas também seguem para o DLA
         }
-        // resto das teclas delega no DLA (1–4, +/-, W/Q, P, R)
-        dla.keyPressed(p);
     }
 
-    @Override
-    public void mousePressed(PApplet p) {
-        // (opcional) poderias delegar em dla.mousePressed(p) se adicionares funcionalidade lá
-        dla.mousePressed(p);
-    }
+    @Override public void mousePressed(PApplet p) { /* sem uso aqui */ }
 }
+
