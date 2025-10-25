@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="../images/logo_isel.png" alt="ISEL" width="400"/>
+<img src="images/logo_isel.png" alt="ISEL" width="400"/>
 
 <br><br>
 
